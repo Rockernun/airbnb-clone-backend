@@ -10,3 +10,7 @@ class House(models.Model):
     description = models.TextField()
     address = models.CharField(max_length=140)
     pets_allowed = models.BooleanField(default=True)
+
+    # admin 패널에서 house의 이름으로 보이도록 설정
+    def __str__(self):
+        return self.name
