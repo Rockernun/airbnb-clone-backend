@@ -14,3 +14,4 @@ class House(models.Model):
     # admin 패널에서 house의 이름으로 보이도록 설정
     def __str__(self):
         return self.name
+
