@@ -1,4 +1,5 @@
 from django.db import models
+from common.models import CommonModel
 
 class Room(models.Model):
 
@@ -11,21 +12,23 @@ class Room(models.Model):
 
     country = models.CharField(max_length=50, default="한국")
     city = models.CharField(max_length=80, default="서울")
-    price = models.PositiveIntegerField()
-    rooms = models.PositiveIntegerField()
-    toilets = models.PositiveIntegerField()
-    description = models.TextField()
-    address = models.CharField(max_length=250)
+    price = models.PositiveIntegerField(default=0)  # 기본값 0원
+    rooms = models.PositiveIntegerField(default=1)  # 기본값 1개
+    toilets = models.PositiveIntegerField(default=1)  # 기본값 1개
+    description = models.TextField(default="설명을 입력해주세요.")  # 기본 설명
+    address = models.CharField(max_length=250, default="주소를 입력해주세요.")  # 기본 주소
     pet_friendly = models.BooleanField(default=True)
-    kind = models.CharField(max_length=20, choices=RoomKindChoices.choices)
+    kind = models.CharField(
+        max_length=20, 
+        choices=RoomKindChoices.choices, 
+        default=RoomKindChoices.ENTIRE_PLACE  # 기본값을 'Entire Place'로 설정
+    )
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE)
     amenities = models.ManyToManyField("rooms.Amenity")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
-class Amenity(models.Model):
+class Amenity(CommonModel):
 
     """ Amenity Definition """
 
-    name = models.CharField(max_length=150)
-    description = models.CharField(max_length=150, default="")
+    name = models.CharField(max_length=150, default="기본 어메니티")  # 기본 어메니티 이름 설정
+    description = models.CharField(max_length=150, default="")  # 기본값 빈 문자열
