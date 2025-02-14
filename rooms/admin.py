@@ -1,8 +1,16 @@
 from django.contrib import admin
 from .models import Room, Amenity
 
+@admin.action(description="모든 price를 0으로 설정")
+def reset_prices(model_admin, request, queryset):
+    for room in queryset.all():
+        room.price = 0
+        room.save()
+
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
+
+    actions = (reset_prices,)
     
     list_display = (
         "name",
