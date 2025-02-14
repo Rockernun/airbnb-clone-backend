@@ -24,12 +24,15 @@ class Room(CommonModel):
         choices=RoomKindChoices.choices, 
         default=RoomKindChoices.ENTIRE_PLACE  # 기본값을 'Entire Place'로 설정
     )
-    owner = models.ForeignKey("users.User", on_delete=models.CASCADE)
-    amenities = models.ManyToManyField("rooms.Amenity")
-    category = models.ForeignKey("categories.Category", null=True, blank=True, on_delete=models.SET_NULL)
+    owner = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="rooms")
+    amenities = models.ManyToManyField("rooms.Amenity", related_name="rooms")
+    category = models.ForeignKey("categories.Category", null=True, blank=True, on_delete=models.SET_NULL, related_name="rooms")
 
     def __str__(self) -> str:
         return self.name
+
+    def total_amenities(self):
+        return self.amenities.count()
 
 class Amenity(CommonModel):
 
