@@ -18,7 +18,7 @@ class User(AbstractUser):
 
     first_name = models.CharField(max_length=150, editable=False)
     last_name = models.CharField(max_length=150, editable=False)
-    avatar = models.ImageField(blank=True, default="")
+    avatar = models.URLField(blank=True, default="")
     name = models.CharField(max_length=150, default="")
     is_host = models.BooleanField(default=False)  # 이전에 생성된 모든 사용자는 is_host 값을 default인 False로 받게 된다.
     gender = models.CharField(max_length=10, choices=GenderChoices.choices, default=GenderChoices.MALE)
